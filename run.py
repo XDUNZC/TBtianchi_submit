@@ -15,10 +15,13 @@ def main():
     # 执行匹配工作
     """初始化匹配模型"""
     # TODO 替换参数
-    match_worker = MatchWorker(model_path='')
+    match_worker = MatchWorker(model_path='/root/4tb/shaohon/TBtianchi_submit/model/Resnet50/models/model-inter-500001.pt')
+    print("success load match model")
     """初始化获得框模型"""
     # TODO 替换参数
-    coco_model = DetectionWorker.get_model()
+    coco_model = DetectionWorker.get_model(config_file="./model/mmdetection_coco/configs/my.py",
+            checkpoint_file="./model/mmdetection_coco/checkpoints/retinanet_x101_64x4d_fpn_1x20200322-53c08bb4.pth")
+    print("success load detection model")
     """逐个视频运行"""
     for video_index, video_path in enumerate(reader.video_path_list, start=0):
         video_index = reader.video_name_list[video_index]
