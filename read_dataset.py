@@ -3,9 +3,9 @@ import os
 
 class Reader:
     def __init__(self,
-                 test_dataset_path='/tcdata/',
-                 img_path='/tcdata/test_dataset_3w/image/',
-                 video_path='/tcdata/test_dataset_3w/video/'):
+                 test_dataset_path='tcdata/',
+                 img_path='tcdata/test_dataset_3w/image/',
+                 video_path='tcdata/test_dataset_3w/video/'):
         # 初始化路径
         self.test_dataset_path = test_dataset_path
         self.img_path = img_path
