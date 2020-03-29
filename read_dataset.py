@@ -23,7 +23,8 @@ class Reader:
         self.video_path_list = [os.path.join(self.video_path, file) for file in self.video_name_list]  # 直播片段地址
         print("finish read video")
         # 读取商品类数
-        _, self.commodity_index_list, _ = os.walk(self.img_path)  # 商品标签名
+        self.commodity_index_list = next(os.walk(self.img_path))[1]
+
         self.img_dir_path_list = []  # 商品标签文件地址
         self.commodity_index2img_path_list = {}  # 根据商品标签索引商品图片地址
         for commodity_index in self.commodity_index_list:
