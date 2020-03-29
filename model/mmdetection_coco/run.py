@@ -66,4 +66,3 @@ if __name__ == '__main__':
     # feature_maps = feature_extractor(img)
     # print(feature_maps)
 
->>>>>>> e4f61d9571eb3dacf927b710557e0433fed94185
