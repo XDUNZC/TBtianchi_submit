@@ -54,11 +54,12 @@ def main():
                          max_match_commodity_index,
                          max_match_video_frame_index,
                          max_match_commodity_img_index)
+        print("finish "+video_index+" match")
         # 进行画框
-        video_bbox = DetectionWorker.get_result_and_feats(coco_model, max_match_video_frame)
-        ci_bbox = DetectionWorker.get_result_and_feats(coco_model, max_match_commodity_img)
-        video_bbox=utils.get_max_bbox(video_bbox)
-        ci_bbox=utils.get_max_bbox(ci_bbox)
+        video_bbox, _ = DetectionWorker.get_result_and_feats(coco_model, max_match_video_frame)
+        ci_bbox, _ = DetectionWorker.get_result_and_feats(coco_model, max_match_commodity_img)
+        video_bbox = utils.get_max_bbox(video_bbox)
+        ci_bbox = utils.get_max_bbox(ci_bbox)
         # 保存画框结果
         saver.save_video_box(video_index,
                              max_match_video_frame_index,
@@ -66,6 +67,7 @@ def main():
         saver.save_item_box(video_index,
                             max_match_commodity_img_index,
                             ci_bbox[:,5])
+        print("finish " + video_index + " img")
     """写出保存结果"""
     saver.write()
     print("successful finish all test")
