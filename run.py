@@ -1,6 +1,7 @@
 import torch
 from torch.autograd import Variable
 import gflags
+import numpy as np
 
 from .model import Siamese_ResNet, Bottleneck
 
@@ -37,7 +38,7 @@ class Worker:
             self.net.cuda()
         self.net.eval()
 
-    def get_match_value(self, img_a: numpy, img_b: numpy):
+    def get_match_value(self, img_a: np, img_b: np):
         """
         获得匹配值
         :param img_a:第一个图像 numpy(H*W*C)
