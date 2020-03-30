@@ -5,6 +5,11 @@ import torch
 import torchvision.transforms as transforms
 
 
+def get_img(img_path):
+    img = cv2.imread(img_path)
+    return img
+
+
 def get_frame_from_video(in_file, frame_num):
     """
     指定帧数读取任意帧
