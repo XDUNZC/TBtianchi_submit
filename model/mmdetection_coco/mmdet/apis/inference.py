@@ -83,10 +83,36 @@ def inference_detector(model, img):
     data = scatter(collate([data], samples_per_gpu=1), [device])[0]
     # forward the model
     with torch.no_grad():
-        result = model(return_loss=False, rescale=True, **data)
-    return result
+          return model(return_loss=False, rescale=True, **data)
 
 
+def inference_detector_feats(model, img):
+    """Inference image(s) with the detector.
+
+    Args:
+        model (nn.Module): The loaded detector.
+        imgs (str/ndarray or list[str/ndarray]): Either image files or loaded
+            images.
+
+    Returns:
+        If imgs is a str, a generator will be returned, otherwise return the
+        detection results directly.
+    """
+    cfg = model.cfg
+    device = next(model.parameters()).device  # model device
+    # build the data pipeline
+    test_pipeline = [LoadImage()] + cfg.data.test.pipeline[1:]
+    test_pipeline = Compose(test_pipeline)
+    # prepare data
+    data = dict(img=img)
+    data = test_pipeline(data)
+    data = scatter(collate([data], samples_per_gpu=1), [device])[0]
+    img_metas = [ i.data for i in data['img_metas'][0]]
+    imgs = data['img']
+    # forward the model
+    with torch.no_grad():
+        # return  model.aug_test_featmap( imgs, img_metas,rescale=True)
+        return model.simple_test(imgs, img_metas, rescale=True)
 async def async_inference_detector(model, img):
     """Async inference image(s) with the detector.
 

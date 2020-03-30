@@ -119,6 +119,34 @@ class BBoxTestMixin(object):
             cfg=rcnn_test_cfg)
         return det_bboxes, det_labels
 
+    # def simple_test_bboxes_feats(self,
+    #                        x,
+    #                        img_metas,
+    #                        proposals,
+    #                        rcnn_test_cfg,
+    #                        rescale=False):
+    #     """Test only det bboxes without augmentation."""
+    #     rois = bbox2roi(proposals)
+    #     roi_feats = self.bbox_roi_extractor(
+    #         x[:len(self.bbox_roi_extractor.featmap_strides)], rois)
+    #     if self.with_shared_head:
+    #         roi_feats = self.shared_head(roi_feats)
+    #     cls_score, bbox_pred = self.bbox_head(roi_feats)
+    #     img_shape = img_metas[0]['img_shape']
+    #     scale_factor = img_metas[0]['scale_factor']
+    #     det_bboxes, det_labels = self.bbox_head.get_det_bboxes(
+    #         rois,
+    #         cls_score,
+    #         bbox_pred,
+    #         img_shape,
+    #         scale_factor,
+    #         rescale=rescale,
+    #         cfg=rcnn_test_cfg)
+    #     return det_bboxes, det_labels,roi_feats
+
+
+
+
     def aug_test_bboxes(self, feats, img_metas, proposal_list, rcnn_test_cfg):
         aug_bboxes = []
         aug_scores = []
@@ -155,6 +183,43 @@ class BBoxTestMixin(object):
                                                 rcnn_test_cfg.nms,
                                                 rcnn_test_cfg.max_per_img)
         return det_bboxes, det_labels
+
+    def aug_test_bboxes_roi_feat(self, feats, img_metas, proposal_list, rcnn_test_cfg):
+        aug_bboxes = []
+        aug_scores = []
+        for x, img_meta in zip(feats, img_metas):
+            # only one image in the batch
+            img_shape = img_metas[0]['img_shape']
+            scale_factor = img_metas[0]['scale_factor']
+            flip = img_metas[0]['flip']
+            # TODO more flexible
+            proposals = bbox_mapping(proposal_list[0][:, :4], img_shape,
+                                     scale_factor, flip)
+            rois = bbox2roi([proposals])
+            # recompute feature maps to save GPU memory
+            roi_feats = self.bbox_roi_extractor(
+                x[:len(self.bbox_roi_extractor.featmap_strides)], rois)
+            if self.with_shared_head:
+                roi_feats = self.shared_head(roi_feats)
+            cls_score, bbox_pred = self.bbox_head(roi_feats)
+            bboxes, scores = self.bbox_head.get_det_bboxes(
+                rois,
+                cls_score,
+                bbox_pred,
+                img_shape,
+                scale_factor,
+                rescale=False,
+                cfg=None)
+            aug_bboxes.append(bboxes)
+            aug_scores.append(scores)
+        # after merging, bboxes will be rescaled to the original image size
+        merged_bboxes, merged_scores = merge_aug_bboxes(
+            aug_bboxes, aug_scores, img_metas, rcnn_test_cfg)
+        det_bboxes, det_labels = multiclass_nms(merged_bboxes, merged_scores,
+                                                rcnn_test_cfg.score_thr,
+                                                rcnn_test_cfg.nms,
+                                                rcnn_test_cfg.max_per_img)
+        return det_bboxes, det_labels, roi_feats
 
 
 class MaskTestMixin(object):

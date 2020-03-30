@@ -1,9 +1,10 @@
 from .coco import CocoDataset
+from .voc import VOCDataset
 from .registry import DATASETS
 
 
 @DATASETS.register_module
-class MyDataset(CocoDataset):
+class MyDataset_coco(CocoDataset):
 
     CLASSES =('长马甲', '古风', '短马甲', '背心上衣', '背带裤', '连体衣', '吊带上衣', '中裤', '短袖衬衫', '无袖上衣',
                  '长袖衬衫', '中等半身裙', '长半身裙', '长外套', '短裙', '无袖连衣裙', '短裤', '短外套',
@@ -33,3 +34,10 @@ class MyDataset(CocoDataset):
     #      'duan xiu lian yi qun',
     #      'duan xiu shang yi'
     # )
+
+@DATASETS.register_module
+class MyDataset_voc(VOCDataset):
+
+    CLASSES =('长马甲', '古风', '短马甲', '背心上衣', '背带裤', '连体衣', '吊带上衣', '中裤', '短袖衬衫', '无袖上衣',
+                 '长袖衬衫', '中等半身裙', '长半身裙', '长外套', '短裙', '无袖连衣裙', '短裤', '短外套',
+                 '长袖连衣裙', '长袖上衣', '长裤', '短袖连衣裙', '短袖上衣')

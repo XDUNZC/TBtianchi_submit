@@ -186,3 +186,9 @@ class SharedFCBBoxHead(ConvFCBBoxHead):
             fc_out_channels=fc_out_channels,
             *args,
             **kwargs)
+
+@HEADS.register_module
+class FeatureHead(SharedFCBBoxHead):
+
+    def forward(self, x):
+        return x
