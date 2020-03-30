@@ -49,8 +49,7 @@ def img2match_torch(img: np):
     img = transform1(img)
     if len(img.shape) == 3:  # 转化为batch
         img_a = img.unsqueeze(0)
-    img = toTensor(img)
-    return
+    return img
 
 
 def get_max_bbox(all_bbox):
