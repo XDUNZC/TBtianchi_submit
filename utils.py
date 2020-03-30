@@ -35,7 +35,8 @@ def tensor_to_np(tensor):
     return img
 
 
-def img2match_torch(img:np):
+def img2match_torch(img: np):
+    img = cv2.resize(img, (105, 105))
     transform1 = transforms.Compose([
         transforms.ToTensor(),  # range [0, 255] -> [0.0,1.0]
     ]
