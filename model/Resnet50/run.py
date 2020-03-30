@@ -38,19 +38,14 @@ class Worker:
             self.net.cuda()
         self.net.eval()
 
-    def get_match_value(self, img_a: np, img_b: np):
+    def get_match_value(self, img_a, img_b):
         """
         获得匹配值
         :param img_a:第一个图像 numpy(H*W*C)
         :param img_b:第二个图像 numpy(H*W*C
         :return:
         """
-        img_a=torch.from_numpy(img_a)
-        img_b=torch.from_numpy(img_b)
-        if len(img_a.shape)==3: # 转化为batch
-            img_a=img_a.unsqueeze(0)
-        if len(img_b.shape)==3: # 转化为batch
-            img_b=img_b.unsqueeze(0)
+
         with torch.no_grad():
             if self.Flags.cuda:
                 img_a, img_b = img_a.cuda(), img_b.cuda()
