@@ -1,6 +1,8 @@
 import ffmpeg
 import numpy as np
 import cv2
+import torch
+import torchvision.transforms as transforms
 
 
 def get_frame_from_video(in_file, frame_num):
@@ -20,11 +22,29 @@ def get_frame_from_video(in_file, frame_num):
     return image
 
 
-def get_img(img_path):
-    img=cv2.imread(img_path)
-    if img is None:
-        print("cannot find "+str(img_path)+" image")
+# numpy img —> tensor   https://blog.csdn.net/qq_36955294/article/details/82888443
+def toTensor(img):
+    img = torch.from_numpy(img.transpose((0, 3, 1, 2)))
+    return img.float().div(255).unsqueeze(0)
+
+
+# tensor img —> numpy
+def tensor_to_np(tensor):
+    img = tensor.mul(255).byte()
+    img = img.cpu().numpy().squeeze(0).transpose((1, 2, 0))
     return img
+
+
+def img2match_torch(img:np):
+    transform1 = transforms.Compose([
+        transforms.ToTensor(),  # range [0, 255] -> [0.0,1.0]
+    ]
+    )
+    img = transform1(img)
+    if len(img.shape) == 3:  # 转化为batch
+        img_a = img.unsqueeze(0)
+    img = toTensor(img)
+    return
 
 
 def get_max_bbox(all_bbox):

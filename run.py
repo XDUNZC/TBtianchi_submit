@@ -39,7 +39,9 @@ def main():
                 commodity_img_path_list = reader.commodity_index2img_path_list[commodity_index]
                 for ci_index, img_path in enumerate(commodity_img_path_list, 0):  # 逐个图片
                     commodity_img = utils.get_img(img_path)
-                    match_value = match_worker.get_match_value(video_frame, commodity_img)  # 进行匹配
+                    video_frame_tensor=utils.img2match_torch(video_frame)
+                    commodity_img_tensor=utils.img2match_torch(commodity_img)
+                    match_value = match_worker.get_match_value(video_frame_tensor, commodity_img_tensor)  # 进行匹配
                     if match_value > max_match_value:  # 如果出现新的最大值，替换
                         max_match_value = match_value
                         max_match_video_frame_index = frame_index
