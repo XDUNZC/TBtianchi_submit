@@ -6,11 +6,13 @@ from .xml_style import XMLDataset
 @DATASETS.register_module
 class VOCDataset(XMLDataset):
 
-    CLASSES = ('aeroplane', 'bicycle', 'bird', 'boat', 'bottle', 'bus', 'car',
-               'cat', 'chair', 'cow', 'diningtable', 'dog', 'horse',
-               'motorbike', 'person', 'pottedplant', 'sheep', 'sofa', 'train',
-               'tvmonitor')
-
+    # CLASSES = ('aeroplane', 'bicycle', 'bird', 'boat', 'bottle', 'bus', 'car',
+    #            'cat', 'chair', 'cow', 'diningtable', 'dog', 'horse',
+    #            'motorbike', 'person', 'pottedplant', 'sheep', 'sofa', 'train',
+    #            'tvmonitor')
+    CLASSES = ('长马甲', '古风', '短马甲', '背心上衣', '背带裤', '连体衣', '吊带上衣', '中裤', '短袖衬衫', '无袖上衣',
+               '长袖衬衫', '中等半身裙', '长半身裙', '长外套', '短裙', '无袖连衣裙', '短裤', '短外套',
+               '长袖连衣裙', '长袖上衣', '长裤', '短袖连衣裙', '短袖上衣')
     def __init__(self, **kwargs):
         super(VOCDataset, self).__init__(**kwargs)
         if 'VOC2007' in self.img_prefix:

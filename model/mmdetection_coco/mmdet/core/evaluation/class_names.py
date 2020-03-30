@@ -7,9 +7,9 @@ def wider_face_classes():
 
 def voc_classes():
     return [
-        'aeroplane', 'bicycle', 'bird', 'boat', 'bottle', 'bus', 'car', 'cat',
-        'chair', 'cow', 'diningtable', 'dog', 'horse', 'motorbike', 'person',
-        'pottedplant', 'sheep', 'sofa', 'train', 'tvmonitor'
+        '长马甲', '古风', '短马甲', '背心上衣', '背带裤', '连体衣', '吊带上衣', '中裤', '短袖衬衫', '无袖上衣',
+                 '长袖衬衫', '中等半身裙', '长半身裙', '长外套', '短裙', '无袖连衣裙', '短裤', '短外套',
+                 '长袖连衣裙', '长袖上衣', '长裤', '短袖连衣裙', '短袖上衣'
     ]
 
 

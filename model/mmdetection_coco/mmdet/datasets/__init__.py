@@ -8,7 +8,7 @@ from .registry import DATASETS
 from .voc import VOCDataset
 from .wider_face import WIDERFaceDataset
 from .xml_style import XMLDataset
-from .my_dataset import MyDataset
+from .my_dataset import MyDataset_coco, MyDataset_voc
 
 __all__ = [
     'CustomDataset', 'XMLDataset', 'CocoDataset', 'VOCDataset',

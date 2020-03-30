@@ -204,7 +204,7 @@ data = dict(
         pipeline=test_pipeline),
     test=dict(
         type=dataset_type,
-        ann_file=data_root + 'annotations/instances_val2017.json',
+        ann_file=data_root + 'annotations/instances_test2017.json',
         img_prefix=data_root + 'test2017/',
         pipeline=test_pipeline))
 evaluation = dict(interval=1, metric='bbox')
@@ -233,5 +233,5 @@ dist_params = dict(backend='nccl')
 log_level = 'INFO'
 work_dir = './work_dirs/cascade_rcnn_x101_64x4d_fpn_1x'
 load_from = None
-resume_from = None
+resume_from = 'work_dirs/cascade_rcnn_x101_64x4d_fpn_1x/epoch_9.pth'
 workflow = [('train', 1)]
