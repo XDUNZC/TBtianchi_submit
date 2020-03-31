@@ -1,6 +1,6 @@
 from mmdet.apis import init_detector, inference_detector
 import numpy as np
-
+from mmcv import imshow_bboxes
 def get_model(config_file='configs/my.py',
               checkpoint_file='work_dirs/retinanet_x101_64x4d_fpn_1x/latest.pth',
               device='cuda:0'):
@@ -20,16 +20,23 @@ def get_result_box(result, score_thr=0.7):
     else:
         bbox_result, segm_result = result, None
     bboxes = np.vstack(bbox_result)
+    labels = [
+        np.full(bbox.shape[0], i, dtype=np.int32)
+        for i, bbox in enumerate(result)
+    ]
+    labels = np.concatenate(labels)
     inds = np.where(bboxes[:, -1] > score_thr)[0]
     bboxes_over_thr = bboxes[inds]
-    return bboxes_over_thr
+    labels_over_thr = labels[inds]
+    return bboxes_over_thr,labels_over_thr
 
 
-def get_result_and_feats(model,img):
+def get_result_and_feats(model,img,score_thr=0.7):
 
     result, roi_feats = inference_detector(model, img)
-    bboxes_over_thr = get_result_box(result, score_thr=0.7)
-    return bboxes_over_thr, roi_feats
+    # print(result)
+    bboxes_over_thr,labels_over_thr = get_result_box(result, score_thr=score_thr)
+    return bboxes_over_thr, labels_over_thr, roi_feats
 
 
 # todo 封装时注意一个问题：不要把模型model读进来初始化，检测完丢掉，再读进来，再检测完再丢掉。注意节省时间
@@ -62,8 +69,9 @@ if __name__ == '__main__':
     device = 'cuda:0'  # GPU 卡号
     model = get_model(config_file=config_file, checkpoint_file=checkpoint_file, device=device)
     img = 'demo/tbtc_test.jpg'
-    result_over_thr, roi_feats = get_result_and_feats(model,img)
+    result_over_thr, labels_over_thr, roi_feats = get_result_and_feats(model, img)
     print(result_over_thr)
+    print(labels_over_thr)
     print(roi_feats.shape)
 
 
