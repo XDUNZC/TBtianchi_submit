@@ -67,8 +67,8 @@ def main():
         # 进行画框
         print(max_match_video_frame_index,"->",max_match_commodity_index)
         print(max_match_video_frame)
-        video_bbox, _ = DetectionWorker.get_result_and_feats(coco_model, max_match_video_frame)
-        ci_bbox, _ = DetectionWorker.get_result_and_feats(coco_model, max_match_commodity_img)
+        video_bbox, _, _ = DetectionWorker.get_result_and_feats(coco_model, max_match_video_frame)
+        ci_bbox, _, _ = DetectionWorker.get_result_and_feats(coco_model, max_match_commodity_img)
         print(video_bbox)
         print(ci_bbox)        
         video_bbox = utils.get_max_bbox(video_bbox)
