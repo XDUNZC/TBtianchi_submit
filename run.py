@@ -3,6 +3,8 @@ from save import Saver
 from model.Resnet50.run import Worker as MatchWorker
 from model.mmdetection_coco import run as DetectionWorker
 import utils
+import os
+
 
 
 def main():
@@ -18,15 +20,22 @@ def main():
     match_worker = MatchWorker(model_path='/root/4tb/shaohon/TBtianchi_submit/model/Resnet50/models/model-inter-500001.pt')
     print("success load match model")
     """初始化获得框模型"""
+    idx=0
+    config_file = ['./model/mmdetection_coco/configs/tbtc_fater_rcnn_voc.py',
+                               'tbtc_retinanet_voc.py', 'tbtc_feature_exteactor_faster_rcnn.py',
+                                                  'tbtc_feature_exteactor_faster_rcnn.py'][idx]
+    checkpoint_file = ['./model/mmdetection_coco/checkpoints/faster_rcnn_x101_64x4d_fpn_1x20200324-ba5926a5.pth',
+                                       'retinanet_x101_64x4d_fpn_1x20200322-53c08bb4.pth'][idx]
+    
     # TODO 替换参数
-    coco_model = DetectionWorker.get_model(config_file="./model/mmdetection_coco/configs/my.py",
-            checkpoint_file="./model/mmdetection_coco/checkpoints/retinanet_x101_64x4d_fpn_1x20200322-53c08bb4.pth")
+    coco_model = DetectionWorker.get_model(config_file=config_file,
+            checkpoint_file=checkpoint_file)
     print("success load detection model")
     """逐个视频运行"""
     for video_index, video_path in enumerate(reader.video_path_list, start=0):
         video_index = reader.video_name_list[video_index]
         print("匹配video，num=", video_path)
-        max_match_value = 0
+        max_match_value = -99999999
         max_match_video_frame_index = None
         max_match_commodity_index = None
         max_match_commodity_img_index = None
@@ -56,8 +65,12 @@ def main():
                          max_match_commodity_img_index)
         print("finish "+video_index+" match")
         # 进行画框
+        print(max_match_video_frame_index,"->",max_match_commodity_index)
+        print(max_match_video_frame)
         video_bbox, _ = DetectionWorker.get_result_and_feats(coco_model, max_match_video_frame)
         ci_bbox, _ = DetectionWorker.get_result_and_feats(coco_model, max_match_commodity_img)
+        print(video_bbox)
+        print(ci_bbox)        
         video_bbox = utils.get_max_bbox(video_bbox)
         ci_bbox = utils.get_max_bbox(ci_bbox)
         # 保存画框结果
@@ -65,8 +78,9 @@ def main():
                              max_match_video_frame_index,
                              video_bbox[:5])
         saver.save_item_box(video_index,
+                            max_match_commodity_index,
                             max_match_commodity_img_index,
-                            ci_bbox[:,5])
+                            ci_bbox[:5])
         print("finish " + video_index + " img")
     """写出保存结果"""
     saver.write()

@@ -60,6 +60,12 @@ def get_max_bbox(all_bbox):
     :return: 最大的框的array，前4个是位置信息，最后一个是概率值 0-1
     """
     all_bbox=np.array(all_bbox)
+    if all_bbox.size==0:
+        return [0,0,0,0,0]
     probablity_list=all_bbox[:,4]
-    max_index=np.array(probablity_list)
-    return list(all_bbox[max_index])
+    if probablity_list.size==0:
+        return [0,0,0,0,0]
+    max_index=np.argmax(probablity_list)
+    bbox=all_bbox[max_index]
+    bbox=np.array(bbox,dtype=np.int_)
+    return bbox.tolist()
