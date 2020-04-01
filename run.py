@@ -17,7 +17,7 @@ def main():
     # 执行匹配工作
     """初始化匹配模型"""
     # TODO 替换参数
-    match_worker = MatchWorker(model_path='/root/4tb/shaohon/TBtianchi_submit/model/Resnet50/models/model-inter-500001.pt')
+    match_worker = MatchWorker(model_path='./model/Resnet50/models/model-inter-500001.pt')
     print("success load match model")
     """初始化获得框模型"""
     idx=0
@@ -65,12 +65,12 @@ def main():
                          max_match_commodity_img_index)
         print("finish "+video_index+" match")
         # 进行画框
-        print(max_match_video_frame_index,"->",max_match_commodity_index)
-        print(max_match_video_frame)
+        # print(max_match_video_frame_index,"->",max_match_commodity_index)
+        # print(max_match_video_frame)
         video_bbox, _, _ = DetectionWorker.get_result_and_feats(coco_model, max_match_video_frame)
         ci_bbox, _, _ = DetectionWorker.get_result_and_feats(coco_model, max_match_commodity_img)
-        print(video_bbox)
-        print(ci_bbox)        
+        # print(video_bbox)
+        # print(ci_bbox)        
         video_bbox = utils.get_max_bbox(video_bbox)
         ci_bbox = utils.get_max_bbox(ci_bbox)
         # 保存画框结果
@@ -81,7 +81,7 @@ def main():
                             max_match_commodity_index,
                             max_match_commodity_img_index,
                             ci_bbox[:5])
-        print("finish " + video_index + " img")
+        print("finish " + video_index)
     """写出保存结果"""
     saver.write()
     print("successful finish all test")
