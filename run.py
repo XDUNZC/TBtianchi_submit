@@ -4,12 +4,14 @@ from model.Resnet50.run import Worker as MatchWorker
 from model.mmdetection_coco import run as DetectionWorker
 import utils
 import os
-
+import mmcv
 
 
 def main():
     # 初始化文件路径获得类
-    reader = Reader()
+    reader = Reader(test_dataset_path='tcdata/',
+                 img_path='tcdata/test_dataset_3w/image/',
+                 video_path='tcdata/test_dataset_3w/video/')
     print("success init reader")
     # 初始化结果保存类
     saver = Saver()
@@ -42,8 +44,10 @@ def main():
         max_match_commodity_img = None
         max_match_video_frame = None
         # 寻找最大匹配项
+        video = mmcv.VideoReader(video_path)
         for frame_index in range(0, 400, 20):  # 逐个视频帧匹配
-            video_frame = utils.get_frame_from_video(video_path, frame_index)  # 获取视频帧
+            # video_frame = utils.get_frame_from_video(video_path, frame_index)  # 获取视频帧
+            video_frame = video[frame_index]  # 获取视频帧
             for commodity_index in reader.commodity_index_list:  # 逐个商品扫描
                 commodity_img_path_list = reader.commodity_index2img_path_list[commodity_index]
                 for ci_index, img_path in enumerate(commodity_img_path_list, 0):  # 逐个图片

@@ -78,8 +78,8 @@ class Saver:
         self.save[video_id]["result"][0]["item_box"] = item_box
 
     def write(self, check=True):
-        if os.path.exists('./result.json') and check:
+        if os.path.exists('result.json') and check:
             print("WARNING: Cover result")
-        with open('/result.json', 'w') as f:
+        with open('result.json', 'w') as f:
             f.write(json.dumps(self.save))
             print("Finish write result.json")

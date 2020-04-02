@@ -1,4 +1,5 @@
-import ffmpeg
+# import ffmpeg
+import mmcv
 import numpy as np
 import cv2
 import torch
@@ -10,21 +11,21 @@ def get_img(img_path):
     return img
 
 
-def get_frame_from_video(in_file, frame_num):
-    """
-    指定帧数读取任意帧
-    """
-    out, err = (
-        ffmpeg.input(in_file)
-            .filter('select', 'gte(n,{})'.format(frame_num))
-            .output('pipe:', vframes=1, format='image2', vcodec='mjpeg')
-            .run(capture_stdout=True)
-    )
-    if out is None:
-        print("cannot find " + str(frame_num) + " in " + in_file)
-    image_array = np.asarray(bytearray(out), dtype="uint8")
-    image = cv2.imdecode(image_array, cv2.IMREAD_COLOR)
-    return image
+# def get_frame_from_video(in_file, frame_num):
+#     """
+#     指定帧数读取任意帧
+#     """
+#     out, err = (
+#         ffmpeg.input(in_file)
+#             .filter('select', 'gte(n,{})'.format(frame_num))
+#             .output('pipe:', vframes=1, format='image2', vcodec='mjpeg')
+#             .run(capture_stdout=True)
+#     )
+#     if out is None:
+#         print("cannot find " + str(frame_num) + " in " + in_file)
+#     image_array = np.asarray(bytearray(out), dtype="uint8")
+#     image = cv2.imdecode(image_array, cv2.IMREAD_COLOR)
+#     return image
 
 
 # numpy img —> tensor   https://blog.csdn.net/qq_36955294/article/details/82888443
