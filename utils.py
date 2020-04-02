@@ -70,3 +70,6 @@ def get_max_bbox(all_bbox):
     bbox=all_bbox[max_index]
     bbox=np.array(bbox,dtype=np.int_)
     return bbox.tolist()
+
+def get_max_probability_box(video_bbox, video_labels, ci_bbox, ci_labels):
+    pass
