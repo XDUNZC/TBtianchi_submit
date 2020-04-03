@@ -135,3 +135,6 @@ dmypy.json
 *.zip
 tcdata_train/
 tcdata/
+
+# result.json
+result.json
