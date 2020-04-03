@@ -17,7 +17,7 @@ class Classifier():
     def _classify_image(self):
         print('开始检测所有商品图,并进行分类剪枝:')
         # 为了加速debug 只剪枝前1000个商品图
-        for commodity in mmcv.track_iter_progress(self.reader.commodity_index_list[:1000]):
+        for commodity in mmcv.track_iter_progress(self.reader.commodity_index_list):
             labels_in_this_commodity = {i:0 for i in range(23)}
             imgs_in_this_commodity = list(self.reader.commodity_index2img_path_list[commodity])
             for img in imgs_in_this_commodity: 
