@@ -8,16 +8,18 @@ from .model import Siamese_ResNet, Bottleneck
 
 class Worker:
     def __init__(self,
-            model_path="./model/Resnet50/models/"): # TODO 改变model路径
-                 
+                 model_path="./model/Resnet50/models/"):  # TODO 改变model路径
+
         """
         初始化模型
         :param model_path:
         :param gpu_list:gpu列表，逗号字符串包含GPU号，逗号分割
         """
-        self.Flags = gflags.FLAGS
-        gflags.DEFINE_bool("cuda", True, "use cuda")
-        gflags.DEFINE_string("gpu_ids", "0", "gpu ids used to train")
+        # self.Flags = gflags.FLAGS
+        # gflags.DEFINE_bool("cuda", True, "use cuda")
+        # gflags.DEFINE_string("gpu_ids", "0", "gpu ids used to train")
+        self.Flags.cuda = True
+        self.Flags.gpu_ids = "0"
 
         # 创建模型
         self.net = Siamese_ResNet([3, 4, 6, 3])
