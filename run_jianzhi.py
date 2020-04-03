@@ -52,7 +52,7 @@ def main():
     for video_path in mmcv.track_iter_progress(reader.video_path_list):
         video_index = video_path.split('/')[-1].split('.')[0]
         print("匹配video，num=", video_index)
-        max_match_value = -99999999
+        max_match_value = -999999999
         max_match_video_frame_index = None
         max_match_commodity_index = None
         max_match_commodity_img_index = None
@@ -96,6 +96,8 @@ def main():
             for label in labels_in_this_video_list:
                 # 将集合合并 生成候选匹配商品集
                 candida_commoditys = candida_commoditys.union(classifier.class2commoditys[label])
+            if len(candida_commoditys)==0:
+                continue
             for frame_index in present_frames:
                 video_frame = video[frame_index]
                 for commodity_index in candida_commoditys:  # 逐个商品扫描
