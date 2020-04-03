@@ -40,16 +40,16 @@ def main():
     # reader = classifier.reader
     print("success build classifier")
 
-    # 显示分类结果,正式提交的时候请注释
-    print('显示分类结果:')
-    classifier.show_classify_result()
-    for comm in reader.commodity_index_list:
-        print(comm,': ', reader.commodity_index2img_path_list[comm])
+    # # 显示分类结果,正式提交的时候请注释
+    # print('显示分类结果:')
+    # classifier.show_classify_result()
+    # for comm in reader.commodity_index_list:
+    #     print(comm,': ', reader.commodity_index2img_path_list[comm])
     #
     #
     # """逐个视频运行""" 可以考虑切片,先只检测前1000个视频,节省时间
     print('开始逐视频进行检测: ')
-    for video_path in mmcv.track_iter_progress(reader.video_path_list):
+    for video_path in mmcv.track_iter_progress(reader.video_path_listp[:100]):
         video_index = video_path.split('/')[-1].split('.')[0]
         print("匹配video，num=", video_index)
         max_match_value = -999999999
@@ -119,7 +119,7 @@ def main():
                              max_match_commodity_index,
                              max_match_video_frame_index,
                              max_match_commodity_img_index)
-            print("finish " + video_index + " match")
+            # print("finish " + video_index + " match")
             # 进行画框
             # print(max_match_video_frame_index,"->",max_match_commodity_index)
             # print(max_match_video_frame)
@@ -141,7 +141,7 @@ def main():
                                 max_match_commodity_index,
                                 max_match_commodity_img_index,
                                 ci_bbox[:4])
-            print("finish " + video_index)
+            # print("finish " + video_index)
     """写出保存结果"""
     saver.write()
     print("successful finish all test")

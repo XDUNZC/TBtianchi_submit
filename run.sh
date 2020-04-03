@@ -2,4 +2,4 @@ cd model/mmdetection_coco/
 python setup.py develop
 cd ../..
 
-python run.py
+python run_jianzhi.py
