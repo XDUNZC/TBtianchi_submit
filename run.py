@@ -18,6 +18,7 @@ class Worker:
         # self.Flags = gflags.FLAGS
         # gflags.DEFINE_bool("cuda", True, "use cuda")
         # gflags.DEFINE_string("gpu_ids", "0", "gpu ids used to train")
+        self.Flags
         self.Flags.cuda = True
         self.Flags.gpu_ids = "0"
 
