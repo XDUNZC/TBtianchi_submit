@@ -49,7 +49,7 @@ def main():
     #
     # """逐个视频运行""" 可以考虑切片,先只检测前1000个视频,节省时间
     print('开始逐视频进行检测: ')
-    for video_path in mmcv.track_iter_progress(reader.video_path_listp[:100]):
+    for video_path in mmcv.track_iter_progress(reader.video_path_list[:100]):
         video_index = video_path.split('/')[-1].split('.')[0]
         print("匹配video，num=", video_index)
         max_match_value = -999999999
