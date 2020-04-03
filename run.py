@@ -80,11 +80,11 @@ def main():
         # 保存画框结果
         saver.save_video_box(video_index,
                              max_match_video_frame_index,
-                             video_bbox[:5])
+                             video_bbox[:4])
         saver.save_item_box(video_index,
                             max_match_commodity_index,
                             max_match_commodity_img_index,
-                            ci_bbox[:5])
+                            ci_bbox[:4])
         print("finish " + video_index)
     """写出保存结果"""
     saver.write()
