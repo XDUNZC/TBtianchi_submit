@@ -114,6 +114,9 @@ def main():
                             max_match_commodity_index = commodity_index
                             max_match_commodity_img_index = str(ci_index)
                             max_match_commodity_img_path = img_path
+            # 如果没有匹配到商品,跳过该视频
+            if max_match_video_frame_index == None:
+                continue
             # 保存匹配结果
             saver.save_match(video_index,
                              max_match_commodity_index,
